@@ -1,10 +1,7 @@
 <html>
 
 <head>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.js"></script>
-
-    <style>
-    </style>
+    <title>7-Tage-Karte</title>
 
     <script>
         function autotab(current, to) {
@@ -16,42 +13,49 @@
 
         function setDates() {
             let d = new Date();
-            d.setHours(parseInt(document.formName['hour'].value), parseInt(document.formName['minute'].value), 0, 0);
-            d.setFullYear(2019, 1, 1);
+            // d.setHours(parseInt(document.formName['hour'].value), parseInt(document.formName['minute'].value), 0, 0);
+            d.setHours(0, 0, 0, 0);
+            d.setFullYear(2019, 0, 1);
             const days = ['mo', 'di', 'mi', 'do', 'fr', 'sa', 'so'];
-            const w = parseInt(document.formName['week'].value) * 7 + days.indexOf(document.formName['day'].value);
-            d = new Date(d - ((d.getDay() + 6) % 7 + w) * 86400000);
-            document.getElementById('datestart').textContent = d;
-            document.getElementById('dateend').textContent = d + 10000000;
+            const week = parseInt(document.formName['week'].value);
+            const currday = days.indexOf(document.formName['day'].value.toLowerCase());
+            const dayofyear = (week - 1) * 7 + currday - (d.getDay() + 6) % 7;
+            d = new Date(+d + dayofyear * 86400000);
+            document.getElementById('datestart').textContent = d.toDateString();
+            d = new Date(+d + 8 * 86400000);
+            document.getElementById('dateend').textContent = d.toDateString();
         }
     </script>
 </head>
 
 <body>
-    What is written on your 7-Tage-Karte?<br>
-    <form name="formName">
-        <input oninput="autotab(this, document.formName['minute'])"
-            onfocus="this.setSelectionRange(0, this.value.length)" type="text" id="hour" value="07"
-            style="font-size: 20; width: 30;" maxlength="2" autofocus />
-        <input oninput="autotab(this, document.formName['day'])" onfocus="this.setSelectionRange(0, this.value.length)"
-            type="text" id="minute" value="17" style="font-size: 13; width: 20; vertical-align: top;" maxlength="2" />
-        <input oninput="autotab(this, document.formName['week'])" onfocus="this.setSelectionRange(0, this.value.length)"
-            type="text" id="day" value="Do" style="font-size: 20; width: 30;" maxlength="2" />
-        <input oninput="autotab(this, document.formName['yearnum'])"
-            onfocus="this.setSelectionRange(0, this.value.length)" type="text" id="week" value="40"
-            style="font-size: 20; width: 30;" maxlength="2" />
-        <input oninput="autotab(this, document.formName['hour'])" onfocus="this.setSelectionRange(0, this.value.length)"
-            type="text" id="yearnum" value="9" style="font-size: 20;width: 20;transform: rotateZ(270deg);"
-            maxlength="1" />
-    </form>
-    <br>
-    <br>
-    When did it start:<br>
-    <label id="datestart"></label><br>
-    <br>
-    When will it end:<br>
-    <label id="dateend"></label><br>
-
+    <div style="text-align: center">
+        What is written on your 7-Tage-Karte?<br>
+        <form name="formName">
+            <input oninput="autotab(this, document.formName['minute'])"
+                onfocus="this.setSelectionRange(0, this.value.length)" type="text" id="hour" value="07"
+                style="font-size: 20; width: 30;" maxlength="2" autofocus />
+            <input oninput="autotab(this, document.formName['day'])"
+                onfocus="this.setSelectionRange(0, this.value.length)" type="text" id="minute" value="17"
+                style="font-size: 13; width: 20; vertical-align: top;" maxlength="2" />
+            <input oninput="autotab(this, document.formName['week'])"
+                onfocus="this.setSelectionRange(0, this.value.length)" type="text" id="day" value="Do"
+                style="font-size: 20; width: 30;" maxlength="2" />
+            <input oninput="autotab(this, document.formName['yearnum'])"
+                onfocus="this.setSelectionRange(0, this.value.length)" type="text" id="week" value="40"
+                style="font-size: 20; width: 30;" maxlength="2" />
+            <input oninput="autotab(this, document.formName['hour'])"
+                onfocus="this.setSelectionRange(0, this.value.length)" type="text" id="yearnum" value="9"
+                style="font-size: 20;width: 20;transform: rotateZ(270deg);" maxlength="1" />
+        </form>
+        <br>
+        <br>
+        When did it start:<br>
+        <label id="datestart" style="font-weight: bold"></label><br>
+        <br>
+        When will it end:<br>
+        <label id="dateend" style="font-weight: bold"></label><br>at 3am<br>
+    </div>
     <script>setDates()</script>
 </body>
 
