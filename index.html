@@ -15,7 +15,12 @@
             let d = new Date();
             // d.setHours(parseInt(document.formName['hour'].value), parseInt(document.formName['minute'].value), 0, 0);
             d.setHours(0, 0, 0, 0);
-            d.setFullYear(2019, 0, 1);
+            const y = parseInt(document.formName['yearnum'].value);
+            const cy = d.getFullYear();
+            let y1 = Math.trunc(cy / 10) * 10 + y;
+            if (Math.abs(y1 - cy) > Math.abs(y1 - 10 - cy)) y1 = y1 - 10;
+            if (Math.abs(y1 - cy) > Math.abs(y1 + 10 - cy)) y1 = y1 + 10;
+            d.setFullYear(y1, 0, 1);
             const days = ['mo', 'di', 'mi', 'do', 'fr', 'sa', 'so'];
             const week = parseInt(document.formName['week'].value);
             const currday = days.indexOf(document.formName['day'].value.toLowerCase());
@@ -55,7 +60,8 @@
             <label id="datestart" style="font-weight: bold"></label><br>
             <br>
             When will it end:<br>
-            <label id="dateend" style="font-weight: bold"></label><br>at 3am<br><br>(so on the morning of this date,<br>buy a new card)<br>
+            <label id="dateend" style="font-weight: bold"></label><br>at 3am<br><br>
+            (so on the morning of this date,<br>buy a new card)<br>
         </div>
         <div>
             <img src="karte.jpg" width="300" style="float: left" />
